@@ -3,7 +3,7 @@
 import langchain_helper as lch
 import vector_helper as vh
 import streamlit as st
-from st_copy_to_clipboard import st_copy_to_clipboard
+# from st_copy_to_clipboard import st_copy_to_clipboard
 
 
 # gen_quiz(role, topics, context, test_type, num_questions, difficulty, format, request)
@@ -33,7 +33,8 @@ if st.sidebar.button("Clear uploaded file"):
     st.rerun()
 
 user_file = st.sidebar.file_uploader("Or upload a file for context:",
-                                      type=["txt", "pdf", "docx","md", "pptx", "csv", "xlsx"],
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+                                      type=["txt", "pdf", "docx","md", "pptx", "csv", "xlsx", "png", "jpg", "jpeg"],
                                       accept_multiple_files=True,
                                       key=f"uploader_{st.session_state.uploader_key}")
 

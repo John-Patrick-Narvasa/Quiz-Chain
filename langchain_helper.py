@@ -12,12 +12,27 @@ from langchain_ollama.llms import OllamaLLM
 import pypdf
 import docx2txt
 import io
+import pytesseract
+from PIL import Image
 from pptx import Presentation
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import vector_helper as vh
+import logging
 
 load_dotenv()
+
+logging.getLogger("pypdf").setLevel(logging.ERROR)
+
+# TODO: Make an OCR to read files with images and images itself to convert to text
+def ocr_image_to_text(image_file):
+    try:
+        img = Image.open(image_file)
+        text = pytesseract.image_to_string(img)
+        return text
+    except Exception as e:
+        print(f"OCR Error: {e}")
+        return ""
 
 def get_file_text(uploaded_file):
     if uploaded_file is None:
@@ -53,6 +68,9 @@ def get_file_text(uploaded_file):
                     text_runs.append(shape.text)    
 
         return "\n".join(text_runs)
+    
+    elif file_extension in ['png', 'jpg', 'jpeg']:
+        return ocr_image_to_text(uploaded_file)
 
     else:
         return ""
@@ -95,6 +113,12 @@ def chunk_text(text, chunk_size=1024, chunk_overlap=200):
 
 
     """
+# TODO: make built in input templates for 7 diff quiz types and topics (DSA (lec, code), Stats (lec), OOP (lec, code), ATFL (lec), MS (lec) ) 
+templates = [
+    [
+
+    ]
+]
 
 
 def gen_quiz(role, topics, context, raw_text, test_type, num_questions, difficulty, format, request, k):
@@ -103,6 +127,7 @@ def gen_quiz(role, topics, context, raw_text, test_type, num_questions, difficul
         model="gemini-2.5-flash", 
         temperature=0.7
         )
+    # llm = OllamaLLM(model="llama3.2", temperature=0.7)
 
     if raw_text:
         smart_context = vh.get_smart_context(raw_text, topics, k)
@@ -155,6 +180,7 @@ IF YOU DO NOT HAVE ENOUGH INFORMATION, JUST SAY: I don't have relevant informati
     )
 
     chain = prompt_template_quiz | llm
+    # chain = prompt_template_quiz | llm | StrOutputParser()  
 
     response = chain.invoke({
         "role": role,
@@ -169,6 +195,8 @@ IF YOU DO NOT HAVE ENOUGH INFORMATION, JUST SAY: I don't have relevant informati
     })
 
     return response.content, formatted_prompt
+    # return response, formatted_prompt
+
 
 # testing the OLlama  (to be updated later)
 def gen_quiz_local(role, topics, context, raw_text, test_type, num_questions, difficulty, format, request, k):
@@ -254,26 +282,29 @@ if __name__ == "__main__":
         role="history teacher",
         topics="World War II, The Renaissance",
         context="This quiz is for high school students studying European history.",
-        file=None,
+        raw_text=None,
         test_type="multiple choice and short answer",
         num_questions=5,
         difficulty="medium",
         format="JSON format with questions and answers",
-        request="Please provide the correct answers as well."
+        request="Please provide the correct answers as well.",
+        k=5
     ))
 
-    print("\nLocal LLM Quiz Generation Example:")
-    print(gen_quiz_local(
-        role="history teacher",
-        topics="World War II, The Renaissance",
-        context="This quiz is for high school students studying European history.",
-        file=None,
-        test_type="multiple choice and short answer",
-        num_questions=5,
-        difficulty="medium",
-        format="JSON format with questions and answers",
-        request="Please provide the correct answers as well."
-    ))
+    # print("\nLocal LLM Quiz Generation Example:")
+    # print(gen_quiz_local(
+    #     role="history teacher",
+    #     topics="World War II, The Renaissance",
+    #     context="This quiz is for high school students studying European history.",
+    #     file=None,
+    #     test_type="multiple choice and short answer",
+    #     num_questions=5,
+    #     difficulty="medium",
+    #     format="JSON format with questions and answers",
+    #     request="Please provide the correct answers as well."
+    # ))
+
+    
     # print("\nLangChain Agent Example:")
     # try:
     #     print(langchain_agent())
