@@ -18,16 +18,18 @@ No. of Items: 20
 
 Sample Structure: 
 
-    I. 
+    I. Test type name
     Instructions: 
 
-    II. 
+    II. Test type name
     Instructions: 
 
-    III. 
+    III. Test type name
+    Instructions: 
+
     ...
 
-    Answer Keys (At the very end):
+    Answer Keys with explanation or step by step solution if necessary (At the very end):
 
 3. Quiz Specification, Further Request
 
