@@ -72,17 +72,32 @@ user_test_types = st.sidebar.multiselect("Select test types:", [
                                                                 "Code Exercise",
                                                                 "Code Problem",
                                                                 "Edge Cases and questions"])
-user_num_questions = st.sidebar.number_input("Number of questions:", min_value=1, max_value=100, value=10, step=1)
+
+user_num_questions = st.sidebar.number_input("Number of questions:", min_value=1, max_value=100, value=15, step=1)
 user_difficulty = st.sidebar.selectbox("Select difficulty level:", ["Easy", "Medium", "Hard"])
 
-user_format = st.sidebar.text_area("Enter the format:")
+user_format = st.sidebar.text_area("Enter the format:",
+                                   input="""
+    I. Test type name
+    Instructions: 
+
+    II. Test type name
+    Instructions: 
+
+    III. Test type name
+    Instructions: 
+
+    ...
+
+    Answer Keys with explanation or step by step solution if necessary (At the very end):
+""")
 
 user_request = st.sidebar.text_area("Enter any additional instructions or conversation flow:")
 
 
 
 # Choose what model to use
-model_choice = st.sidebar.selectbox("Select the AI model:", ["Ollama", "Gemini"])
+model_choice = st.sidebar.selectbox("Select the AI model:", ["Ollama", "Gemini"], index=1)
 
 # Generate Quiz button
 if st.sidebar.button("Generate Quiz"):

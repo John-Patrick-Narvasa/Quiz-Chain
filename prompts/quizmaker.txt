@@ -16,6 +16,7 @@ Test type/s: Multiple choices (theory), sample data and schema(answer with query
 
 No. of Items: 20
 
+<structure>
 Sample Structure: 
 
     I. Test type name
@@ -30,6 +31,7 @@ Sample Structure:
     ...
 
     Answer Keys with explanation or step by step solution if necessary (At the very end):
+</structure>
 
 3. Quiz Specification, Further Request
 
@@ -38,8 +40,11 @@ Convo Structure: *Gradual difficulty increasing* (only depends if the user will 
 Easy - 10 items multi choice
 
 Medium - 10 items multi choice
-    
+
+
+<flow>
 Produce two Easy difficulty first. 
     – I will say ‘proceed’ or ‘continue’ when I’m ready for the next set. 
     – If I only say ‘proceed’, just give me another fresh set at the same difficulty level. 
     – If I say ‘continue’, move on to the next difficulty.”
+</flow>
