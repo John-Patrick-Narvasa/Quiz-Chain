@@ -76,9 +76,9 @@ user_test_types = st.sidebar.multiselect("Select test types:", [
 user_num_questions = st.sidebar.number_input("Number of questions:", min_value=1, max_value=100, value=15, step=1)
 user_difficulty = st.sidebar.selectbox("Select difficulty level:", ["Easy", "Medium", "Hard"])
 
-user_format = st.sidebar.text_area("Enter the format:",
-                                   input="""
-    I. Test type name
+user_format = st.sidebar.text_area(
+    label="Enter the format:",
+    value="""I. Test type name
     Instructions: 
 
     II. Test type name
@@ -92,7 +92,12 @@ user_format = st.sidebar.text_area("Enter the format:",
     Answer Keys with explanation or step by step solution if necessary (At the very end):
 """)
 
-user_request = st.sidebar.text_area("Enter any additional instructions or conversation flow:")
+user_request = st.sidebar.text_area(
+    label="Enter any additional instructions or conversation flow:", 
+    value="""Generate an exhaustive quiz. After I complete this, I will provide my Mistake Log prompt. 
+        You must analyze my specific logic gaps and generate a 'Remediation Set' of questions. 
+        We will repeat this loop until I achieve a perfect score and conceptual clarity.
+""")
 
 
 
